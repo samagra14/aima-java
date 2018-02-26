@@ -43,19 +43,24 @@ public class BreadthFirstSearchTest {
 	public <A, S> List<A> searchForActions(Problem<A, S> problem) {
 		SearchForActionsFunction<A, S> searchForActionsFunction;
 		if ("BreadthFirstSearch".equals(searchFunctionName)) {
-			searchForActionsFunction = new BreadthFirstSearch<A, S>();
+			searchForActionsFunction = new BreadthFirstSearch<>();
 		} else {
 			QueueSearchForActions<A, S> qsearchVariant;
 			String variant = searchFunctionName.split("-")[1];
 			// NOTE: Matches version in book
-			if (variant.equals("GraphGoalTestFirst")) {
-				qsearchVariant = new GraphGoalTestedFirstQueueSearch<>();
-			} else if (variant.equals("Graph")) {
-				qsearchVariant = new GraphQueueSearch<>();
-			} else if (variant.equals("TreeGoalTestedFirst")) {
-				qsearchVariant = new TreeGoalTestedFirstQueueSearch<>();
-			} else {
-				qsearchVariant = new TreeQueueSearch<>();
+			switch (variant) {
+				case "GraphGoalTestFirst":
+					qsearchVariant = new GraphGoalTestedFirstQueueSearch<>();
+					break;
+				case "Graph":
+					qsearchVariant = new GraphQueueSearch<>();
+					break;
+				case "TreeGoalTestedFirst":
+					qsearchVariant = new TreeGoalTestedFirstQueueSearch<>();
+					break;
+				default:
+					qsearchVariant = new TreeQueueSearch<>();
+					break;
 			}
 			searchForActionsFunction = new BreadthFirstQueueSearch<A, S>(qsearchVariant);
 		}
@@ -65,7 +70,7 @@ public class BreadthFirstSearchTest {
 
 	@Test
 	public void testSimplifiedRoadmapOfPartOfRomania() {
-		Assert.assertEquals(Arrays.asList((String) null),
+		Assert.assertEquals(Collections.singletonList((String) null),
 				searchForActions(ProblemFactory.getSimplifiedRoadMapOfPartOfRomaniaProblem(
 						SimplifiedRoadMapOfPartOfRomania.ARAD, SimplifiedRoadMapOfPartOfRomania.ARAD)));
 
@@ -79,7 +84,7 @@ public class BreadthFirstSearchTest {
 
 	@Test
 	public void testSimpleVacuumEnvironment() {
-		Assert.assertEquals(Arrays.asList((String) null),
+		Assert.assertEquals(Collections.singletonList((String) null),
 				searchForActions(ProblemFactory.getSimpleVacuumWorldProblem("A",
 						new VELocalState("A", VacuumEnvironment.Status.Clean),
 						new VELocalState("B", VacuumEnvironment.Status.Clean))));
@@ -89,7 +94,7 @@ public class BreadthFirstSearchTest {
 						new VELocalState("A", VacuumEnvironment.Status.Clean),
 						new VELocalState("B", VacuumEnvironment.Status.Dirty))));
 
-		Assert.assertEquals(Arrays.asList(VacuumEnvironment.ACTION_SUCK),
+		Assert.assertEquals(Collections.singletonList(VacuumEnvironment.ACTION_SUCK),
 				searchForActions(ProblemFactory.getSimpleVacuumWorldProblem("A",
 						new VELocalState("A", VacuumEnvironment.Status.Dirty),
 						new VELocalState("B", VacuumEnvironment.Status.Clean))));

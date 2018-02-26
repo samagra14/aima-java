@@ -40,20 +40,21 @@ public class UniformCostSearchTest {
 
     public <A, S> List<A> searchForActions(Problem<A, S> problem) {
         SearchForActionsFunction<A, S> searchForActionsFunction;
-        if (searchFunctionName.equals("core.UniformCostSearch")) {
-        	searchForActionsFunction = new UniformCostSearch<>();
-        }
-        else if (searchFunctionName.equals("extra.UniformCostQueueSearch.graph")){
-        	searchForActionsFunction = new UniformCostQueueSearch<>(new GraphPriorityQueueSearch<>());
-        }
-        else if (searchFunctionName.equals("extra.UniformCostQueueSearch.graphrl")) {
-        	searchForActionsFunction = new UniformCostQueueSearch<>(new GraphRLPriorityQueueSearch<>());
-        }
-        else if (searchFunctionName.equals("extra.UniformCostQueueSearch.tree")) {
-        	searchForActionsFunction = new UniformCostQueueSearch<>(new TreePriorityQueueSearch<>());
-        }
-        else {
-        	throw new UnsupportedOperationException();
+        switch (searchFunctionName) {
+            case "core.UniformCostSearch":
+                searchForActionsFunction = new UniformCostSearch<>();
+                break;
+            case "extra.UniformCostQueueSearch.graph":
+                searchForActionsFunction = new UniformCostQueueSearch<>(new GraphPriorityQueueSearch<>());
+                break;
+            case "extra.UniformCostQueueSearch.graphrl":
+                searchForActionsFunction = new UniformCostQueueSearch<>(new GraphRLPriorityQueueSearch<>());
+                break;
+            case "extra.UniformCostQueueSearch.tree":
+                searchForActionsFunction = new UniformCostQueueSearch<>(new TreePriorityQueueSearch<>());
+                break;
+            default:
+                throw new UnsupportedOperationException();
         }
         
         return searchForActionsFunction.apply(problem);

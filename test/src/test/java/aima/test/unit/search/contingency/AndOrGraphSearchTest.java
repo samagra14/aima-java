@@ -1,9 +1,6 @@
 package aima.test.unit.search.contingency;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -159,9 +156,9 @@ public class AndOrGraphSearchTest {
 		Assert.assertEquals("[]", cp.toString());
 		
 		testPlan(cp,
-				Arrays.asList(// Initial State
+				Collections.singletonList(// Initial State
 						new VEWorldState("A", new VELocalState("A", Clean), new VELocalState("B", Clean))),
-				Arrays.asList((String) null));
+				Collections.singletonList(null));
 
 		// State 8 [ ][ _/]
 		cp = searchForConditionalPlan(NondeterministicProblemFactory.getSimpleErraticVacuumWorldProblem("B",
@@ -170,9 +167,9 @@ public class AndOrGraphSearchTest {
 		Assert.assertEquals("[]", cp.toString());
 		
 		testPlan(cp,
-				Arrays.asList(// Initial State
+				Collections.singletonList(// Initial State
 						new VEWorldState("B", new VELocalState("A", Clean), new VELocalState("B", Clean))),
-				Arrays.asList((String) null));
+				Collections.singletonList(null));
 	}
 	
 	@Test

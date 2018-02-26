@@ -35,9 +35,7 @@ public class HillClimbingSearchTest {
 
 	// The state value function will be represented by the ascii value of the
 	// first character in the state name.
-	ToDoubleFunction<String> asciiChar0StateValueFn = state -> {
-		return (double) state.charAt(0);
-	};
+	ToDoubleFunction<String> asciiChar0StateValueFn = state -> (double) state.charAt(0);
 
 	ToDoubleFunction<Pair<Integer, Integer>> y_valueFn = x_y -> x_y.getSecond().doubleValue();
 
@@ -46,9 +44,9 @@ public class HillClimbingSearchTest {
 		SearchForStateFunction<A, S> searchForStateFunction;
 
 		if ("HillClimbingSearch".equals(searchForStateFunctionName)) {
-			searchForStateFunction = new HillClimbingSearch<A, S>(stateValueFn, isSteepestAscentVersion);
+			searchForStateFunction = new HillClimbingSearch<>(stateValueFn, isSteepestAscentVersion);
 		} else {
-			searchForStateFunction = new HillClimbingSearchWithSidewaysMoves<A, S>(stateValueFn, isSteepestAscentVersion);
+			searchForStateFunction = new HillClimbingSearchWithSidewaysMoves<>(stateValueFn, isSteepestAscentVersion);
 		}
 		return searchForStateFunction.apply(problem);
 	}

@@ -27,9 +27,11 @@ import static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.TIMIS
 import static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.URZICENI;
 import static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.ZERIND;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author manthan.
+ * @author samagra
  */
 @RunWith(Parameterized.class)
 public class BidirectionalSearchTest {
@@ -44,14 +46,15 @@ public class BidirectionalSearchTest {
     public <A, S> BidirectionalSearchResult<A> searchForActions(Pair<Problem<A, S>, Problem<A, S>> pair) {
         SearchForActionsBidirectionallyFunction<A, S> search;
 
-        if (searchFunctionName.equals("BidirectionalSearchGW")) {
-        	search = new BidirectionalSearchGW<>();
-        }
-        else if(searchFunctionName.equals("BidirectionalSearchMRS")){
-            search = new BidirectionalSearchMRS<>();
-        }
-        else{
-            throw new UnsupportedOperationException("Unsupported searchFunctionName="+searchFunctionName);
+        switch (searchFunctionName) {
+            case "BidirectionalSearchGW":
+                search = new BidirectionalSearchGW<>();
+                break;
+            case "BidirectionalSearchMRS":
+                search = new BidirectionalSearchMRS<>();
+                break;
+            default:
+                throw new UnsupportedOperationException("Unsupported searchFunctionName=" + searchFunctionName);
         }
         return search.apply(pair.getFirst(), pair.getSecond());
     }
@@ -61,7 +64,7 @@ public class BidirectionalSearchTest {
         Pair<Problem<GoAction, InState>, Problem<GoAction, InState>> pair =
             ProblemFactory.getSimpleBidirectionalSearchProblem(ARAD, ARAD);
 
-        assertEquals(null, searchForActions(pair).fromGoalStateToInitialState());
+        assertNull(searchForActions(pair).fromGoalStateToInitialState());
     }
 
     @Test

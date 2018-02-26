@@ -30,16 +30,14 @@ public class SimulatedAnnealingTest {
 
 	// The state value function will be represented by the ascii value of the
 	// first character in the state name.
-	ToDoubleFunction<String> asciiChar0StateValueFn = state -> {
-		return (double) state.charAt(0);
-	};
+	ToDoubleFunction<String> asciiChar0StateValueFn = state -> (double) state.charAt(0);
 	
 	ToDoubleFunction<Pair<Integer, Integer>> y_valueFn = x_y -> x_y.getSecond().doubleValue();
 
 	public <A, S> S searchForState(Problem<A, S> problem, ToDoubleFunction<S> stateValueFn, boolean isGradientAscentVersion) {
 		SearchForStateFunction<A, S> searchForStateFunction;
 		
-		searchForStateFunction = new SimulatedAnnealingSearch<A, S>(stateValueFn, isGradientAscentVersion);
+		searchForStateFunction = new SimulatedAnnealingSearch<>(stateValueFn, isGradientAscentVersion);
 		
 		return searchForStateFunction.apply(problem);
 	}
@@ -52,13 +50,13 @@ public class SimulatedAnnealingTest {
 		
 		while(ProblemFactory.DEFAULT_DISCRETE_FUNCTION_GLOBAL_MAXIMIM !=
 				searchForState(ProblemFactory.getDefaultSimpleDiscreteFunctionProblem(6, true), y_valueFn, true)
-						.getSecond().intValue());
+						.getSecond());
 		
 		// Simulated annealing should always find the global maximum in this search space within a reasonable number of attempts.
 		for (int x = 0; x < ProblemFactory.DEFAULT_DISCRETE_FUNCTION_DEPENDENT_VALUES.length; x++) {
 			while(ProblemFactory.DEFAULT_DISCRETE_FUNCTION_GLOBAL_MAXIMIM !=
-				searchForState(ProblemFactory.getDefaultSimpleDiscreteFunctionProblem(x, true), y_valueFn, true)
-						.getSecond().intValue());
+					searchForState(ProblemFactory.getDefaultSimpleDiscreteFunctionProblem(x, true), y_valueFn, true)
+							.getSecond());
 		}
 	}
 
